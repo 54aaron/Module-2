@@ -1,4 +1,4 @@
-![an image of a eSP32 device running a program](https://github.com/54aaron/Module-1/blob/main/img/IMG_8338.jpg)
+![a control rests against a laptop screen](https://github.com/54aaron/Module-2/blob/main/IMG_8573.jpg)
 # PORTRAIT.
 
 "Portrait" is an interactive computational art display.
@@ -52,7 +52,7 @@ Similar to the BPM, both Pitch and distortion employ sets of if statements that 
 #### Prototype - optional
 Once everything had been more or less set up and connected I built a very rudimentary HTML prototype that allowed me to test the sound production functionality before adjusting it to reading constant input from the ESP32. Here's what that looked like:
 
-![an image of a eSP32 device running a program](https://github.com/54aaron/Module-1/blob/main/img/IMG_8338.jpg)
+![An prototype consisting of very large blue buttons](https://github.com/54aaron/Module-2/blob/main/img/2022-03-07%20(2).png)
 
 ### Drawing
 The lineart portrait consists of an 500px x 600px SVG file made in Adobe Illustrator and exported via Inkscape.
@@ -75,19 +75,25 @@ After you're done with your code, you'll use the Arduino IDE's upload function t
 The output pins of each component were soldered to wires which were then connected to the ESP32 microcontroller via a breadboard.
 The Button wires were connected to Ground and Pin 15; The potentiometer wires were connected to Ground, a 3.3v pin, and pin 12. The Joystick wires were connected to pins 27, 26, and 25, a ground pin, and a 3.3v pin. The wires were then "secured" to the breadboard using electrical tape.
   
-![an image of a eSP32 device running a program](https://github.com/54aaron/Module-1/blob/main/img/IMG_8338.jpg)
+![an ESP32 connected to a button, a joystick, and a dial](https://github.com/54aaron/Module-2/blob/main/img/IMG_8538.jpg)
 
 ### Encasing
 After the circuit had been built and all the components connected - it was then encased in a box of sorts made from cardboard and hot glued together.
 The breadboard had been secured to the bottom of this encasing using double sided tape. holes had been made on top of the box using an exacto knife (non-optimal)
 and the various components were then pushed through and secured with either double sided tape, or a washer and a nut.
   
-![a diagram for a paper envelop encasing](https://github.com/54aaron/Module-1/blob/main/img/Instagram%20post%20-%201.png)
+![An ESP32 circuit encased in a cardboard box](https://github.com/54aaron/Module-2/blob/main/img/IMG_8555.jpg)
   
 The entire left side of this encasing had been left open as to allow ease of access to the ESP32's USB-C port:
   
-![an image of a eSP32 device running a program](https://github.com/54aaron/Module-1/blob/main/img/IMG_8338.jpg)
+![an image of a eSP32 device running a program](https://github.com/54aaron/Module-2/blob/main/img/IMG_8550.jpg)
 
-If you're feeling especially creative - you could also decorate it with it stickers:
+If you're feeling especially fond of your new controller - you could also decorate it with a sticker:
   
-  ![an image of a eSP32 device running a program](https://github.com/54aaron/Module-1/blob/main/img/IMG_8338.jpg)
+  ![an image of a eSP32 device running a program](https://github.com/54aaron/Module-2/blob/main/img/IMG_8556.jpg)
+  
+Or maybe two:
+  
+ ![an image of a eSP32 device running a program](https://github.com/54aaron/Module-2/blob/main/img/IMG_8558.jpg)
+  
+  
