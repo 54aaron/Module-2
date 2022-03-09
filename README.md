@@ -1,29 +1,68 @@
 ![an image of a eSP32 device running a program](https://github.com/54aaron/Module-1/blob/main/img/IMG_8338.jpg)
 # PORTRAIT.
 
-"Get Lucky. Go Easy" is a computational visual art display of lyrics from K-pop group, Weki Meki's song, "Fantastic."
-From the song, the display adopts the lyircs "Get Lucky, Go Easy," and animates them according to an aesthetic logic abstracted from LED storefront signage.
-The completed piece was featured in a larger installation of similar works on the 5th floor of Barnard University's Milstein building. 
-The displayed message was intended to live somewhere between being perceived as a stress reducing encouragement and vapid commercial copywriting.
+"Portrait" is an interactive computational art display.
+Portrait is a rudimentary effort at attempting to link both the sonification and the visualization of user interaction with the device.
+Users touch some buttons and turn some knobs with a remote control.
+This in turn controls sounds, a gradient, and wiggles a drawing.
+It's not rocket science.
 
 # How It Works
 
-"Get Lucky. Go Easy" was developed using an eSP32 microcontroller with a built-in TTGO display and a 500mAh battery. 
-The code for this display was written on top of the TFT_eSPI library example code, “RLE_Font_test.”
-Once the code had been appropriately edited, it was saved under a new name and flashed to my eSP32 device.
-To allow my display to be portable, I soldered a 500mAh battery to a eSP32 power input.
-Finally, both eSP32 and its accompanying battery, were encased in a paper folded paper envelope.
+In "Portrait" users can use a remote control to distort a lineart portrait of an individual - while also warping the sound being produced.
+- The remote control consists of a button, a potentiometer, and a joystick. 
+- The button starts and stops the sounds being produced. 
+- The potentiometer can increase and decrease the BPM of the sound. It may also increase the speed at which the background gradient transistions. 
+- The joystick can adjust pitch on a horizantal plane, and levels of distortion on a vertical plane. These planes also correspond to the directions the user can skew portrait.
+
+"Portrait" may be split between hardware and software.
+
+On a hardware level, Portrait consists of a remote controller that in itself consists of an ESP32 microcontroller connected to the various aforementioned input components via soldering and a breadboard. The ESP32 runs an Arduino program (built on top of the Arduino IDE's "TouchRead" example code) that transmits information to Portrait's software via a serial connection over a USB-C cable.
+
+On a software level, portrait operates on a Javascript program that receives information via JSON messages from a serial connection between it and the ESP32 microcontroller.
+This software leverages three Javascript libraries (Tonejs, Animejs, and Granimjs) to visualuze and sonify user input. 
+The software parses the JSON messages it receives for input component values and sonifies and visualzies them appropriately. 
 
 Below are more specific instructions regarding the code featured in the repository, and also more specific installation instructions.
 
 # Code
-## Colors
-I created two arrays which each contained the macros for two colors each; one array held "primary colors" and the other array contained "secondary colors". These macros were predefined using the library's built in "color565" RGB channel function. I then used C++'s built in rand() function to psuedorandomly select an index from each array and saved its dereferenced value into two variables. These variables would then be used to determine the color of the text and its background for the duration of the program. The colors were stored in two different arrays to ensure that no text was the same color as its background. The colors were "randomly" chosen to ensure that each loop of the program at least appeared to be somewhat irregular.
+## ESP32
+### Input Values
+The ESP32 code is fairly simple. After the setup() function is able to establish a serial connection at a baud rate of 115200, the loop function then facilitates digitalRead() and analogRead() functions to read component input values. These values are interpolated into a string in JSON format - which is then printed to the serial connection after a delay of 100.
 
-## Text Animation
-To implement the scrolling text, I had various "drawString" functions in a while loop where their "x-value" arguments would decrease by a randomly generated value between 1 and 5. The loop would end when the first line of text had achieved a horizontal position of -160px. After a delay of 500, I used the setTextcolor function to invert the color of the text with its background color.
-I then facilitated multiple drawString methods - each with different x and y values determined by a rand() function. The rand() functions were limited to ranges between 0 and the height or width of my device's screen ( to ensure that they did not return a number larger than my screen, effectively making the text invisible). Thus, the text would appear at pseudo random positions on the screen, one after the other. I found that, when left alone, the pieces of text would overlap each other, which I thought lent itself well to the overall kitsch of the piece.
-After about 18 pieces of text had appeared, a fillScreen function paired with 18 more drawString functions would clear the screen and fill it with newly randomly positioned text. For purposes of repetition, after a delay of 1000, I reused the above functions but with inverted colors.
+## Javascript
+### Overview
+In general, the Javascript program waits until a user clicks anywhere on the web broweser to establish a serial connection with the remote controller. Once a connection has been established, the readLoop() function will constantly read information provided by the ESP32 until the serial conenction has been broken.
+
+### JSON
+The ESP32 sends a JSON string to the Javascript program at a delay of 100. The incoming JSON message is then verified using helper function that checks to see if JSON.parse() is able to successfully parse the message or not. If verified, the message is then parsed into individual readings from the components on the remote - which is then used to determine sound and visual properties.
+
+### Sound
+As previously stated, the Javascript program leverages the Tonejs library to produce sound. The produced sounds are the result of a AMSynth, MonoSynth, and MembraneSynth all playing together. A looping beat is then created using the library's Loop method and the program waits until the user has pressed the button on the device to start this loop. 
+
+#### BPM
+Using a set of if statements, the javascript program constantly checks to see if the readings from the potentiometer are between certain values - which would determine the BPM of the generated sound. For example, one such if statement checks to see if the potentiometer is producing a reading between 3073 and 4096 (the highest range) and, if so, increases the BPM to 800. The Tonejs "rampTo" method is also leveraged to provide the impression of seamless BPM shifting.
+
+#### Pitch and Distortion
+Similar to the BPM, both Pitch and distortion employ sets of if statements that constantly check to see what range the vrX and vrY values of the joystick are between. They each facilitate Tonejs' Pitchshifter and Distorion shifters respectively.
+
+#### Prototype - optional
+Once everything had been moreorless set up and connectedm I built a very rudimentary HTML prototype that allowed me to test the sound production functionality before adjusting it to reading constant input from the ESP32. Here's what that looked like:
+
+![an image of a eSP32 device running a program](https://github.com/54aaron/Module-1/blob/main/img/IMG_8338.jpg)
+
+### Drawing
+The lineart portrait consists of an 500px x 600px SVG file made in Adobe Illustrator and exported via Inkscape.
+
+#### Distortion
+The Javascript program facilitates the animejs library to distort the SVG paths. This warping functions very similarly to the sound production. Using if statements, the program constantly checks to see if the vrX and vrY values from the joystick are between certain numbers - which would then correlate to the level and direction at which the image may be skewed. For example, pushing the joystick to the left results in a value between 2000 and 4096 - which results in the SVG being skewed 180 degrees to the left. The skewing is accomplished using animejs's "anime"function which targets an array of all of the paths in the SVG and influences them accordingly.
+
+### Gradient
+The gradient visualization is a result of the granimjs javascript library. It is held within a <canvas> HTML and placed behind the SVG file via providing it a lower z-index value in comparison to the SVG's z-index value. 
+  
+#### TRansition speed 
+
+
 
 # Installation
 ## Flashing your eSP32 Device
