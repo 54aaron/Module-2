@@ -1,0 +1,57 @@
+img{
+    position: absolute;
+}
+.lol {
+    margin-top: 50px;
+    padding: 50px;
+    border: solid;
+    background-color: aqua;
+}
+
+.pitchers {
+    display: flex;
+    margin-top: 50px;
+    padding: 50px;
+    border: solid;
+}
+#portrait{
+    z-index: 1000;
+    position:absolute;
+    top: 450px;
+    left: 550px;
+}
+
+.paper{
+    /* border: solid; */
+    border-radius: 50px;
+    /* box-shadow: 10px 10px 8px #ffbef1; */
+    /* padding: 25px; */
+    height: 600px;
+    width: 500px;
+    margin:auto;
+    position:absolute;
+    z-index: 950;
+    top: 45px;
+    left: 350px;
+    /* background-image: url("paper.png");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center; */
+}
+
+#grad{
+    border: solid;
+    border-width: 5px;
+    height: 600px;
+    width: 500px;
+    position:absolute;
+    border-radius: 50px;
+    z-index: 900;
+    top: 45px;
+    left: 350px;
+}
+
+path{
+    /* stroke-dasharray: 50px; */
+    stroke-dashoffset: 0px;
+}
